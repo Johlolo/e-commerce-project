@@ -159,7 +159,7 @@ class Product extends Model {
 		$sql = new SQL();
 
 		$rows = $sql->select("SELECT * FROM tb_products WHERE desurl = :desurl LIMIT 1", [
-			'desurl'=>$desurl
+			':desurl'=>$desurl
 		]);
 
 		$this->setData($rows[0]);
@@ -172,7 +172,7 @@ class Product extends Model {
 		$sql = new SQL();
 
 		return $sql->select("SELECT * FROM tb_categories a INNER JOIN tb_productscategories b ON a.idcategory = b.idcategory WHERE b.idproduct = :idproduct", [
-			'idproduct'=>$this->getidproduct()
+			':idproduct'=>$this->getidproduct()
 		]);
 
 	}
