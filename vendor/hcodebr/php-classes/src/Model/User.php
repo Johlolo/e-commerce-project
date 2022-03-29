@@ -11,6 +11,9 @@ class User extends Model {
     const SESSION = "User";
     const SECRET = "HcodePhp8_Secret";
     const SECRET_IV = "HcodePhp8_Secret_IV";
+    const ERROR = "UserError";
+    const ERROR_REGISTER = "UserErrorRegister";
+    const SUCCESS = "UserSucesss";
 
     public static function getFromSession()
     {
@@ -65,7 +68,7 @@ class User extends Model {
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN", array(
             ":LOGIN"=>$login
         ));
 
@@ -80,6 +83,8 @@ class User extends Model {
         {
 
             $user = new User();
+
+            $data['desperson'] = utf8_encode($data['desperson']);
 
             $user->setData($data);
 
@@ -96,9 +101,13 @@ class User extends Model {
     public static function verifyLogin($inadmin = true)
     {
 
-        if (User::checkLogin($inadmin)) {
+        if (!User::checkLogin($inadmin)) {
 
-            header("Location: /admin/login");
+            if ($inadmin) {
+                header("Location: /admin/login");
+            } else {
+                header("Location: /login");
+            }
             exit;
 
         }
@@ -127,9 +136,9 @@ class User extends Model {
         $sql = new Sql();
 
         $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
-            ":desperson"=>$this->getdesperson(),
+            ":desperson"=>utf8_decode($this->getdesperson()),
             ":deslogin"=>$this->getdeslogin(),
-            ":despassword"=>$this->getdespassword(),
+            ":despassword"=>User::getPasswordHash($this->getdespassword()),
             ":desemail"=>$this->getdesemail(),
             ":nrphone"=>$this->getnrphone(),
             ":inadmin"=>$this->getinadmin()
@@ -148,6 +157,10 @@ class User extends Model {
             ":iduser"=>$iduser
         ));
 
+        $data = $results[0];
+
+        $data['desperson'] = utf8_encode($data['desperson']);
+
         $this->setData($results[0]);
 
     }
@@ -159,9 +172,9 @@ class User extends Model {
 
         $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
             ":iduser"=>$this->getiduser(),
-            ":desperson"=>$this->getdesperson(),
+            ":desperson"=>utf8_decode($this->getdesperson()),
             ":deslogin"=>$this->getdeslogin(),
-            ":despassword"=>$this->getdespassword(),
+            ":despassword"=>User::getPasswordHash($this->getdespassword()),
             ":desemail"=>$this->getdesemail(),
             ":nrphone"=>$this->getnrphone(),
             ":inadmin"=>$this->getinadmin()
@@ -221,12 +234,6 @@ class User extends Model {
 
                 $dataRecovery = $results2[0];
 
-                //$iv = random_bytes(openssl_cipher_iv_length('AES-256-CBC')); 
-
-                //$code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-256-CBC', User::SECRET, 0, $iv);
-
-                //$result = base64_encode($iv.$code);
-
                 $code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
 
 				$code = base64_encode($code);
@@ -260,21 +267,7 @@ class User extends Model {
 
         $code = base64_decode($code);
 
-        //$idrecovery = openssl_decrypt($code, 'AES-256-CBC', pack("a16", User::SECRET));
-
         $idrecovery = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
-
-        //$result = base64_decode($result);
-
-        //$code = mb_substr($result, openssl_cipher_iv_length('AES-256-CBC'), null, '8bit');
-
-        //$iv = mb_substr($result, 0, openssl_cipher_iv_length('AES-256-CBC'), '8bit');
-
-        //$idrecovery = openssl_decrypt($code, 'AES-256-CBC', User::SECRET, 0, $iv);
-
-        //list($encrypted, $iv) = explode('::', base64_decode($result));
-
-        //$idrecovery = openssl_decrypt($encrypted, 'AES-256-CBC', USER::SECRET, 0,  $iv);
 
         $sql = new Sql();
         
@@ -322,6 +315,93 @@ class User extends Model {
             ":password"=>$password,
             ":iduser"=>$this->getiduser()
         ));
+
+    }
+
+    public static function setError($msg)
+    {
+
+        $_SESSION[User::ERROR] = $msg;
+
+    }
+
+    public static function getError()
+    {
+
+        $msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
+
+        User::clearError();
+
+        return $msg;
+
+    }
+
+    public static function clearError()
+    {
+
+        $_SESSION[User::ERROR] = NULL;
+
+    }
+
+    public static function setSuccess($msg)
+    {
+
+        $_SESSION[User::SUCCESS] = $msg;
+
+    }
+
+    public static function getSuccess()
+    {
+
+        $msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : '';
+
+        User::clearSuccess();
+
+        return $msg;
+
+    }
+
+    public static function clearSuccess()
+    {
+
+        $_SESSION[User::SUCCESS] = NULL;
+
+    }
+
+    public static function setErrorRegister($msg)
+    {
+        $_SESSION[User::ERROR_REGISTER] = $msg;
+
+    }
+
+    public static function getErrorRegister()
+    {
+
+        $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
+
+        User::clearErrorRegister();
+
+        return $msg;
+
+    }
+
+    public static function clearErrorRegister()
+    {
+
+        $_SESSION[User::ERROR_REGISTER] = NULL;
+
+    }
+
+    public static function checkLoginExist($login)
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", [
+            ':deslogin'=>$login
+        ]);
+
+        return (count($results) > 0);
 
     }
 

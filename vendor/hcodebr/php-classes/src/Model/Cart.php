@@ -203,6 +203,8 @@ class Cart extends Model {
 
             if ($totals['vlheight'] < 2) $totals['vlheight'] = 2;
             if ($totals['vllength'] < 16) $totals['vllength'] = 16;
+            if ($totals['vlwidth'] < 11) $totals['vlwidth'] = 11;
+            
 
             $qs = http_build_query([
                 'nCdEmpresa'=>'',
@@ -266,6 +268,7 @@ class Cart extends Model {
 
     }
 
+    
     public static function getMsgError()
     {
 
@@ -276,6 +279,7 @@ class Cart extends Model {
         return $msg;
 
     }
+    
 
     public static function clearMsgError()
     {
@@ -311,8 +315,47 @@ class Cart extends Model {
 
         $totals = $this->getProductsTotals();
 
-        $this->setvlsubtotal($totals['vlprice']);
-        $this->setvltotal($totals['vlprice'] + $this->getvlfreight());
+        if ((int)$totals['nrqtd'] > 0) {
+
+            $this->setvlsubtotal($totals['vlprice']);
+            $this->setvltotal($totals['vlprice'] + $this->getvlfreight());
+
+        } else {
+
+            $this->setvlsubtotal(0);
+            $this->setvltotal(0);
+            $this->setnrdays(0);
+            return Cart::setMsgError("O carrinho de compras está vazio!");
+
+        }
+
+        if ((int)$totals['vlprice'] > 10000) {
+
+            return Cart::setMsgError("O valor da compra não pode ser maior que R$10.000,00!");
+
+        } else {
+
+            
+
+        }
+
+    }
+
+    public function checkZipCode()
+    {
+        
+        $products = $this->getProducts();
+        if (!count($products) > 0) {
+
+            $sql = new Sql();
+
+            $sql->query("UPDATE tb_carts SET deszipcode = NULL, vlfreight = NULL, nrdays = NULL WHERE idcart = :idcart", [
+                ':idcart'=>$this->getidcart()
+            ]);
+
+            $this->setdeszipcode('');
+            $this->setvlfreight(0);
+        }
 
     }
 
