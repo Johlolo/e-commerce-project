@@ -13,7 +13,7 @@ class User extends Model {
     const SECRET_IV = "HcodePhp8_Secret_IV";
     const ERROR = "UserError";
     const ERROR_REGISTER = "UserErrorRegister";
-    const SUCCESS = "UserSucesss";
+    const SUCCESS = "UserSuccess";
 
     public static function getFromSession()
     {
@@ -165,16 +165,26 @@ class User extends Model {
 
     }
 
-    public function update()
+    public function update($passwordHash = true)
     {
 
         $sql = new Sql();
+
+        //Novo
+        if ($passwordHash)
+        {
+            $password = User::getPasswordHash($this->getdespassword());
+        } else {
+            $password = $this->getdespassword();
+        }
+        //Até aqui
 
         $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
             ":iduser"=>$this->getiduser(),
             ":desperson"=>utf8_decode($this->getdesperson()),
             ":deslogin"=>$this->getdeslogin(),
-            ":despassword"=>User::getPasswordHash($this->getdespassword()),
+            //":despassword"=>User::getPasswordHash($this->getdespassword()),
+            ":despassword"=>$password,
             ":desemail"=>$this->getdesemail(),
             ":nrphone"=>$this->getnrphone(),
             ":inadmin"=>$this->getinadmin()
