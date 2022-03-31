@@ -17,4 +17,4 @@ require_once("admin-products.php");
 
 $app->run();
 
- ?>
+?>

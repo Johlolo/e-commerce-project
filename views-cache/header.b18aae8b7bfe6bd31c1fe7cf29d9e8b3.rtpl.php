@@ -58,7 +58,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/admin" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>YS</span>
       <!-- logo for regular state and mobile devices -->
@@ -185,20 +185,20 @@ desired effect
 
                 <p>
                   <?php echo getUserName(); ?>
-                  <small>Administrator</small>
+                  <small>Administrador</small>
                 </p>
               </li>
               <!-- Menu Body -->
               <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
+                    <a href="#">Seguidores</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                    <a href="#">Vendas</a>
                   </div>
                   <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
+                    <a href="#">Amigos</a>
                   </div>
                 </div>
                 <!-- /.row -->
@@ -234,7 +234,7 @@ desired effect
           <img src="/res/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo getUserName(); ?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -254,11 +254,23 @@ desired effect
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">HEADER</li>
+        <li class="header">CONTEÚDO</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="/admin/users"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
-        <li><a href="/admin/categories"><i class="fa fa-link"></i> <span>Categorias</span></a></li>
-        <li><a href="/admin/products"><i class="fa fa-link"></i> <span>Produtos</span></a></li>
+        <li><a href="/admin/categories"><i class="fa fa-tags"></i> <span>Categorias</span></a></li>
+        <li><a href="/admin/products"><i class="fa fa-tablet"></i> <span>Produtos</span></a></li>
+        
+        <li class="treeview">
+          <a href="/admin/mailbox">
+            <i class="fa fa-envelope"></i> <span>Caixa de mensagens</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="/admin/mailbox">Caixa de entrada<span class="pull-right-container"><span class="label label-primary pull-right">13</span></span></a></li>
+            <li><a href="compose.html">Escrever</a></li>
+            <li><a href="read-mail.html">Ler</a></li>
+          </ul>
+        </li>
+
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">

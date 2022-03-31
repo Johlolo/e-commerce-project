@@ -119,4 +119,15 @@ $app->post("/admin/forgot/reset", function(){
 
 });
 
+//////////////// Fora do curso /////////////////
+$app->get("/admin/mailbox", function(){
+
+	$page = new PageAdmin();
+
+	$page->setTpl("mailbox");
+
+});
+////////////////////////////////////////////////
+
+
 ?>

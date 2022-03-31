@@ -40,7 +40,7 @@
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus!</p>
                     <div class="newsletter-form">
                         <form action="#">
-                            <input type="email" placeholder="Type your email">
+                            <input type="email" placeholder="Escreva seu e-mail">
                             <input type="submit" value="Subscribe">
                         </form>
                     </div>
@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="copyright">
-                    <p>&copy; 2017 Hcode Treinamentos. <a href="http://www.hcode.com.br" target="_blank">hcode.com.br</a></p>
+                    <p>&copy; 2022 Yagami Store. <a href="http://www.yagamistore.com.br" target="_blank">yagamistore.com.br</a></p>
                 </div>
             </div>
             
