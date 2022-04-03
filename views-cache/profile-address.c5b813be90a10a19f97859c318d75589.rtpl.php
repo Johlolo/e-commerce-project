@@ -49,6 +49,11 @@
                         </label><br>
                         <input type="text" value="<?php echo htmlspecialchars( $address["desaddress"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Logradouro, número e bairro" id="billing_address_1" name="desaddress" class="input-text ">
                     </p>
+                    <p id="billing_number_1_field" class="form-row form-row-wide number-field validate-required">
+                        <label class="" for="billing_number_1">Número <abbr title="required" class="required">*</abbr>
+                        </label><br>
+                        <input type="text" value="<?php echo htmlspecialchars( $address["desnumber"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="Número" id="billing_address_1" name="desnumber" class="input-text ">
+                    </p>
                     <p id="billing_address_2_field" class="form-row form-row-wide address-field">
                         <label for="billing_address_2_field">Complemento
                         </label><br>

@@ -111,7 +111,7 @@
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="/">Home</a></li>
-                        <li><a href="#">Produtos</a></li>
+                        <li><a href="/products">Produtos</a></li>
                         <li><a href="/cart">Carrinho</a></li>
                     </ul>
                 </div>  

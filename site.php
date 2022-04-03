@@ -51,6 +51,24 @@ $app->get("/categories/:idcategory", function($idcategory) {
 
 });
 
+/////////////////////////////// =========================== ///////////////////////////
+
+$app->get("/products", function() {
+	
+	$products = new Product();
+
+	$products = Product::listAll();
+
+	$page = new Page();
+
+	$page->setTpl("products", [
+		'products'=>Product::checkList($products)
+	]);
+
+});
+
+/////////////////////////////// =========================== ///////////////////////////
+
 $app->get("/products/:desurl", function($desurl){
 
 	$product = new Product();
@@ -767,7 +785,12 @@ $app->post('/profile/address', function() {
 
 	$address->setData($_POST);
 
-	$address->update();
+	if (!isset($_POST)) {
+		$address->save();
+	} else {
+		$address->update();
+
+	}
 
 	User::setSuccess("Endereço alterado com sucesso!");
 

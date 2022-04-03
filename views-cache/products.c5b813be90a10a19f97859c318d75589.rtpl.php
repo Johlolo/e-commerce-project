@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="product-bit-title text-center">
-                    <h2><?php echo htmlspecialchars( $category["descategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h2>
+                    <h2>Produtos</h2>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
 
             
         </div>
-        
+        <!--
         <div class="row">
             <div class="col-md-12">
                 <div class="product-pagination text-center">
@@ -51,5 +51,6 @@
                 </div>
             </div>
         </div>
+        -->
     </div>
 </div>
