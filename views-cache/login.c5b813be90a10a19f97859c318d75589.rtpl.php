@@ -61,7 +61,7 @@
                 <?php } ?>
 
 
-                <form id="register-form-wrap" action="/register" class="register" method="post">
+                <form id="register-form-wrap" action="/register" class="register" method="post" autocomplete="off">
                     <h2>Criar conta</h2>
                     <p class="form-row form-row-first">
                         <label for="nome">Nome Completo <span class="required">*</span>
