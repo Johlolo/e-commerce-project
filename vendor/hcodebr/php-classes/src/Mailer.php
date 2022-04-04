@@ -10,8 +10,8 @@ use Rain\Tpl;
 
 class Mailer {
 
-    const USERNAME = "yagami.loja@gmail.com";
-    const PASSWORD = "yagami189";
+    const USERNAME = "";
+    const PASSWORD = "";
     const NAME_FROM = "Yagami Store";
 
     private $mail;

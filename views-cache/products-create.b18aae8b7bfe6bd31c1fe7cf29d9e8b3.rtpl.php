@@ -53,10 +53,12 @@
               <label for="desurl">URL</label>
               <input type="text" class="form-control" id="desurl" name="desurl">
             </div>
+            <!--
             <div class="form-group">
               <label for="file">Foto</label>
               <input type="file" class="form-control" id="file" name="file">              
-         </div>
+            </div>
+            -->
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
