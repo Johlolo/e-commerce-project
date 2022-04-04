@@ -275,8 +275,42 @@ $app->post("/checkout", function(){
 
 	$order->save();
 
-	header("Location: /order/".$order->getidorder());
+	switch ((int)$_POST['payment-method']) {
+		case 1:
+		header("Location: /order/".$order->getidorder());
+		//header("Location: /order/".$order->getidorder()."/pagseguro"); Infelizmente a Api não funciona mais
+		break;
+
+		case 2:
+		header("Location: /order/".$order->getidorder()."/paypal");
+		break;
+		
+	}
+
 	exit;
+
+});
+
+$app->get("/order/:idorder/paypal", function($idorder){
+
+	User::verifyLogin(false);
+
+	$order = new Order();
+
+	$order->get((int)$idorder);
+
+	$cart = $order->getCart();
+
+	$page = new Page([
+		'header'=>false,
+		'footer'=>false
+	]);
+
+	$page->setTpl("payment-paypal", [
+		'order'=>$order->getValues(),
+		'cart'=>$cart->getValues(),
+		'products'=>$cart->getProducts()
+	]);
 
 });
 
